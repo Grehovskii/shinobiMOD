@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "shinobimod:block/suna_sandstone_bricks"
+  }
+}
