@@ -5,6 +5,9 @@ on:
     branches: [ "**" ]
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -38,3 +41,27 @@ jobs:
         with:
           name: shinobimod-jar
           path: build/libs/*.jar
+
+      # The artifacts API serves binaries from Azure Blob Storage, which some
+      # sandboxed clients (e.g. a locked-down egress proxy) can't reach.
+      # Committing the jar straight into the repo makes it fetchable with a
+      # plain `git pull`/`git show`, no blob storage involved.
+      - name: Publish jar to dist/ on the build-output branch
+        run: |
+          mkdir -p /tmp/dist
+          cp build/libs/*.jar /tmp/dist/
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin build-output 2>/dev/null || true
+          if git show-ref --verify --quiet refs/remotes/origin/build-output; then
+            git checkout -B build-output origin/build-output
+          else
+            git checkout --orphan build-output
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p dist
+          rm -f dist/*.jar
+          cp /tmp/dist/*.jar dist/
+          git add dist/*.jar
+          git commit -m "Build output for ${{ github.sha }}" --allow-empty
+          git push origin build-output --force
