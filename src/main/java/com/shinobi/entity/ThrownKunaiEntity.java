@@ -5,7 +5,7 @@ import com.shinobi.registry.ModItems;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class ThrownKunaiEntity extends AbstractArrow {
@@ -19,12 +19,12 @@ public class ThrownKunaiEntity extends AbstractArrow {
         this.setBaseDamage(4.5D);
     }
 
-    public void setItem(net.minecraft.world.item.ItemStack stack) {
+    public void setItem(ItemStack stack) {
         // visual/pickup item kept as kunai regardless of what triggered the throw
     }
 
     @Override
-    protected Item getDefaultItem() {
-        return ModItems.KUNAI.get();
+    protected ItemStack getPickupItem() {
+        return new ItemStack(ModItems.KUNAI.get());
     }
 }

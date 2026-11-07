@@ -34,6 +34,11 @@ public class WindBladeEntity extends ThrowableProjectile implements ItemSupplier
     }
 
     @Override
+    protected void defineSynchedData() {
+        // no synced data needed
+    }
+
+    @Override
     protected float getGravity() {
         return 0.0F;
     }

@@ -5,7 +5,7 @@ import com.shinobi.registry.ModItems;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class ThrownShurikenEntity extends AbstractArrow {
@@ -20,18 +20,12 @@ public class ThrownShurikenEntity extends AbstractArrow {
         this.setNoGravity(true);
     }
 
-    public void setItem(net.minecraft.world.item.ItemStack stack) {
+    public void setItem(ItemStack stack) {
         // kept simple: always returns as a shuriken
     }
 
     @Override
-    protected Item getDefaultItem() {
-        return ModItems.SHURIKEN.get();
-    }
-
-    @Override
-    protected void tickDespawn() {
-        // shuriken fly flat and far; let AbstractArrow's default despawn timer handle it
-        super.tickDespawn();
+    protected ItemStack getPickupItem() {
+        return new ItemStack(ModItems.SHURIKEN.get());
     }
 }

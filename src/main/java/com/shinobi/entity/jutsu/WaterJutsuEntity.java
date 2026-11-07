@@ -38,6 +38,11 @@ public class WaterJutsuEntity extends ThrowableProjectile implements ItemSupplie
     }
 
     @Override
+    protected void defineSynchedData() {
+        // no synced data needed
+    }
+
+    @Override
     protected float getGravity() {
         return 0.01F;
     }

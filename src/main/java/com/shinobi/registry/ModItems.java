@@ -63,7 +63,7 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntityTypes.NINJA_VILLAGER, 0x3a3a3a, 0xc0392b, new Item.Properties()));
 
     private static RegistryObject<Item> armor(String village, ArmorMaterial material, ArmorItem.Type type) {
-        int durability = type.getDurability(15);
+        int durability = ModArmorMaterials.baseDurability(type) * 15;
         return ITEMS.register(village + "_" + type.getName(),
                 () -> new ArmorItem(material, type, new Item.Properties().durability(durability)));
     }

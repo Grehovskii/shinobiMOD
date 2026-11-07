@@ -1,17 +1,17 @@
 package com.shinobi.registry;
 
 import com.shinobi.ShinobiMod;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModCreativeTabs {
 
     public static final DeferredRegister<CreativeModeTab> TABS =
-            DeferredRegister.create(ForgeRegistries.CREATIVE_MODE_TABS, ShinobiMod.MOD_ID);
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ShinobiMod.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> SHINOBI_TAB = TABS.register("shinobi_world",
             () -> CreativeModeTab.builder()

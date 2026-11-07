@@ -28,12 +28,17 @@ public class FireballJutsuEntity extends ThrowableProjectile implements ItemSupp
         super.onHit(result);
         if (!this.level().isClientSide) {
             if (result instanceof EntityHitResult entityHit) {
-                entityHit.getEntity().hurt(this.damageSources().fireball(this, this.getOwner() instanceof LivingEntity le ? le : null), 6.0F);
+                entityHit.getEntity().hurt(this.damageSources().magic(), 6.0F);
                 entityHit.getEntity().setSecondsOnFire(5);
             }
             this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.NONE);
             this.discard();
         }
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        // no synced data needed
     }
 
     @Override

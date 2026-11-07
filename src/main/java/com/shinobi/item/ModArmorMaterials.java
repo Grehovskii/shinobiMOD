@@ -63,7 +63,16 @@ public enum ModArmorMaterials implements ArmorMaterial {
             case LEGGINGS -> 15 * durabilityMultiplier;
             case CHESTPLATE -> 16 * durabilityMultiplier;
             case HELMET -> 11 * durabilityMultiplier;
-            case BODY -> 16 * durabilityMultiplier;
+        };
+    }
+
+    /** Same per-slot base durability used above, exposed for {@code ModItems} to size its {@code ItemStack}s with. */
+    public static int baseDurability(ArmorItem.Type type) {
+        return switch (type) {
+            case BOOTS -> 13;
+            case LEGGINGS -> 15;
+            case CHESTPLATE -> 16;
+            case HELMET -> 11;
         };
     }
 
