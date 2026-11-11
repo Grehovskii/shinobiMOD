@@ -40,7 +40,9 @@ public class ShinobiMod {
         ModCreativeTabs.TABS.register(modBus);
 
         modBus.addListener(this::commonSetup);
-        modBus.addListener(ModVillagers::registerTrades);
+        // VillagerTradesEvent is a regular Forge event, not an IModBusEvent,
+        // so it must go on the main Forge bus, not the mod bus.
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(ModVillagers::registerTrades);
 
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new ChakraEvents());
 
