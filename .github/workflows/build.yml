@@ -48,20 +48,24 @@ jobs:
       # plain `git pull`/`git show`, no blob storage involved.
       - name: Publish jar to dist/ on the build-output branch
         run: |
-          mkdir -p /tmp/dist
-          cp build/libs/*.jar /tmp/dist/
+          set -e
+          mkdir -p "$RUNNER_TEMP/dist"
+          cp build/libs/*.jar "$RUNNER_TEMP/dist/"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git fetch origin build-output 2>/dev/null || true
+          # Use a separate worktree so the main checkout (which the wrapper
+          # step has already modified) is left alone.
+          rm -rf "$RUNNER_TEMP/bo"
           if git show-ref --verify --quiet refs/remotes/origin/build-output; then
-            git checkout -B build-output origin/build-output
+            git worktree add -B build-output "$RUNNER_TEMP/bo" origin/build-output
           else
-            git checkout --orphan build-output
-            git rm -rf . >/dev/null 2>&1 || true
+            git worktree add --orphan -b build-output "$RUNNER_TEMP/bo"
           fi
+          cd "$RUNNER_TEMP/bo"
           mkdir -p dist
           rm -f dist/*.jar
-          cp /tmp/dist/*.jar dist/
-          git add dist/*.jar
+          cp "$RUNNER_TEMP"/dist/*.jar dist/
+          git add dist
           git commit -m "Build output for ${{ github.sha }}" --allow-empty
           git push origin build-output --force
